@@ -1,0 +1,158 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "initialConsulVersion": {
+            "type": "string",
+            "defaultValue": "v1.7.2"
+        },
+        "storageAccountName": {
+            "type": "string",
+            "defaultValue": "[uniqueString(newGuid())]"
+        },
+        "blobContainerName": {
+            "type": "string",
+            "defaultValue": "[uniqueString(newGuid())]"
+        },
+        "clusterMode": {
+            "type": "string",
+            "defaultValue": "PRODUCTION"
+        },
+        "clusterName": {
+            "type": "string",
+            "defaultValue": "test"
+        },
+        "consulDataCenter": {
+            "type": "string",
+            "defaultValue": "dc1"
+        },
+        "numServers": {
+            "type": "string",
+            "defaultValue": "3"
+        },
+        "numServersDevelopment": {
+            "type": "string",
+            "defaultValue": "1"
+        },
+        "automaticUpgrades": {
+            "type": "string",
+            "defaultValue": "disabled"
+        },
+        "consulConnect": {
+            "type": "string",
+            "defaultValue": "enabled"
+        },
+        "externalEndpoint": {
+            "type": "string",
+            "defaultValue": "enabled"
+        },
+        "snapshotInterval": {
+            "type": "string",
+            "defaultValue": "1d"
+        },
+        "snapshotRetention": {
+            "type": "string",
+            "defaultValue": "1m"
+        },
+        "consulVnetCidr": {
+            "type": "string",
+            "defaultValue": "172.25.16.0/24"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]"
+        },
+        "providerBaseURL": {
+            "type": "string",
+            "defaultValue": "https://ama-api.hashicorp.cloud/consulama/2020-04-21",
+            "metadata": {
+                "description": "The URI of the custom provider API"
+            }
+        },
+        "applicationResourceName": {
+            "type": "string",
+            "defaultValue": "432e5099339948919c07c99a890d754f"
+        },
+        "managedResourceGroupId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "managedIdentity": {
+            "type": "object",
+            "defaultValue": {}
+        }
+    },
+    "variables": {
+        "managedResourceGroupId": "[if(empty(parameters('managedResourceGroupId')),concat(subscription().id,'/resourceGroups/',take(concat(resourceGroup().name,'-',uniquestring(resourceGroup().id),uniquestring(parameters('applicationResourceName'))),90)),parameters('managedResourceGroupId'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Solutions/applications",
+            "apiVersion": "2017-09-01",
+            "location": "[resourceGroup().Location]",
+            "kind": "MarketPlace",
+            "name": "[parameters('applicationResourceName')]",
+            "plan": {
+                "name": "public-beta",
+                "product": "hcs-production",
+                "publisher": "hashicorp-4665790",
+                "version": "0.0.23"
+            },
+            "identity": "[if(empty(parameters('managedIdentity')),json('null'),parameters('managedIdentity'))]",
+            "properties": {
+                "managedResourceGroupId": "[variables('managedResourceGroupId')]",
+                "parameters": {
+                    "initialConsulVersion": {
+                        "value": "[parameters('initialConsulVersion')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[parameters('storageAccountName')]"
+                    },
+                    "blobContainerName": {
+                        "value": "[parameters('blobContainerName')]"
+                    },
+                    "clusterMode": {
+                        "value": "[parameters('clusterMode')]"
+                    },
+                    "clusterName": {
+                        "value": "[parameters('clusterName')]"
+                    },
+                    "consulDataCenter": {
+                        "value": "[parameters('consulDataCenter')]"
+                    },
+                    "numServers": {
+                        "value": "[parameters('numServers')]"
+                    },
+                    "numServersDevelopment": {
+                        "value": "[parameters('numServersDevelopment')]"
+                    },
+                    "automaticUpgrades": {
+                        "value": "[parameters('automaticUpgrades')]"
+                    },
+                    "consulConnect": {
+                        "value": "[parameters('consulConnect')]"
+                    },
+                    "externalEndpoint": {
+                        "value": "[parameters('externalEndpoint')]"
+                    },
+                    "snapshotInterval": {
+                        "value": "[parameters('snapshotInterval')]"
+                    },
+                    "snapshotRetention": {
+                        "value": "[parameters('snapshotRetention')]"
+                    },
+                    "consulVnetCidr": {
+                        "value": "[parameters('consulVnetCidr')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "providerBaseURL": {
+                        "value": "[parameters('providerBaseURL')]"
+                    }
+                },
+                "jitAccessPolicy": null
+            }
+        }
+    ]
+}
