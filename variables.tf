@@ -1,7 +1,7 @@
 variable "accept_marketplace_aggrement" {
   type        = bool
   description = "Automatically accept the Legal Terms for the HCS marketplace image. To fully automate the deployment this needs to be true. However, if you want to manually accept it using the Azure Portal or you have already deployed a HCS cluster before this needs to be set to 'false'"
-  default     = true
+  default     = false
 }
 
 variable "resource_group_name" {
@@ -12,7 +12,7 @@ variable "resource_group_name" {
 variable "region" {
   type        = string
   description = "Choose the Azure region. As of April 29, 2020 only the regions East US (eastus), West US 2 (westus2), West Europe (westeurope) and North Europe (northeurope) are supported."
-  default     = "uswest2"
+  default     = "westeurope"
 }
 
 variable "consul_cluster_mode" {

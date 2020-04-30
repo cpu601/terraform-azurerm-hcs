@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 module "hcs" {
-  source              = "..."
+  source              = "cpu601/hcs/azurerm"
   resource_group_name = "my-rg-for-consul"
   application_name    = "hcs"
   consul_cluster_name = "my-consul-cluster"
