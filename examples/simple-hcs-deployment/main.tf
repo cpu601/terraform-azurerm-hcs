@@ -2,14 +2,19 @@ provider "azurerm" {
   features {}
 }
 
+resource "azurerm_resource_group" "hcs" {
+  name     = "hcs-example"
+  location = "West Europe"
+}
+
 module "hcs" {
   source              = "cpu601/hcs/azurerm"
-  resource_group_name = "my-rg-for-consul"
+  resource_group_name = azurerm_resource_group.hcs.hcs.name
   application_name    = "hcs"
-  consul_cluster_name = "my-consul-cluster"
+  consul_cluster_name = "example-consul-cluster"
   external_endpoint   = true
 }
 
-output "hcs_config_command" {
-  value = module.hcs.get_hcs_config_command
+output "consul_url" {
+  value = module.hcs.consul_url
 }

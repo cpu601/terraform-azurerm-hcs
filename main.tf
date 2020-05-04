@@ -23,15 +23,12 @@ resource "azurerm_marketplace_agreement" "hcs" {
   plan      = "public-beta"
 }
 
-resource "azurerm_resource_group" "hcs" {
-  name     = var.resource_group_name
-  location = var.region
-}
-
 resource "azurerm_managed_application" "hcs" {
+  depends_on = [azurerm_marketplace_agreement.hcs]
+
   name                        = var.application_name
   location                    = var.region
-  resource_group_name         = azurerm_resource_group.hcs.name
+  resource_group_name         = var.resource_group_name
   kind                        = "MarketPlace"
   managed_resource_group_name = var.managed_resource_group_name == null ? "mrg-hcs-production-${random_string.number.result}" : var.managed_resource_group_name
 
@@ -43,12 +40,12 @@ resource "azurerm_managed_application" "hcs" {
   }
 
   parameters = {
-    initialConsulVersion    = var.consul_version
-    clusterName             = var.consul_cluster_name
-    consulDataCenter        = var.consul_datacenter_name
-    clusterMode             = var.consul_cluster_mode
-    externalEndpoint        = var.external_endpoint ? "enabled" : "disabled"
-    consulVnetCidr          = "${var.vnet_starting_ip_address}/24"
-    location                = var.region
+    initialConsulVersion = var.consul_version
+    clusterName          = var.consul_cluster_name
+    consulDataCenter     = var.consul_datacenter_name
+    clusterMode          = var.consul_cluster_mode
+    externalEndpoint     = var.external_endpoint ? "enabled" : "disabled"
+    consulVnetCidr       = "${var.vnet_starting_ip_address}/24"
+    location             = var.region
   }
 }

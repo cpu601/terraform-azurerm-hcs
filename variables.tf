@@ -1,12 +1,12 @@
 variable "accept_marketplace_aggrement" {
   type        = bool
-  description = "Automatically accept the Legal Terms for the HCS marketplace image. To fully automate the deployment this needs to be true. However, if you want to manually accept it using the Azure Portal or you have already deployed a HCS cluster before this needs to be set to 'false'"
+  description = "Automatically accept the Legal Terms for the HCS for Azure marketplace image. To fully automate the deployment this needs to be true. However, if you want to manually accept it using the Azure Portal or you have already deployed a HCS for Azure cluster before this needs to be set to 'false'"
   default     = false
 }
 
 variable "resource_group_name" {
   type        = string
-  description = "Name of the resource group that will be created to host the managed application HCS."
+  description = "Name of the resource group that will be created to host the managed application HCS for Azure."
 }
 
 variable "region" {
