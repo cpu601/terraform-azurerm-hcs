@@ -1,8 +1,7 @@
 terraform {
   required_version = ">= 0.12.24"
-  # experiments      = [variable_validation]
   required_providers {
-    azurerm = ">= 2.7.0"
+    azurerm = ">= 2.8.0"
     random  = ">= 2.2.1"
   }
 }
@@ -29,12 +28,19 @@ resource "azurerm_resource_group" "hcs" {
   location = var.region
 }
 
-resource "azurerm_template_deployment" "hcs" {
-  depends_on = [azurerm_marketplace_agreement.hcs]
+resource "azurerm_managed_application" "hcs" {
+  name                        = var.application_name
+  location                    = var.region
+  resource_group_name         = azurerm_resource_group.hcs.name
+  kind                        = "MarketPlace"
+  managed_resource_group_name = var.managed_resource_group_name == null ? "mrg-hcs-production-${random_string.number.result}" : var.managed_resource_group_name
 
-  # name                = "hashicorp-4665790.hcs-production-${formatdate("YYYYMMDDhhmmss", timestamp())}"
-  name                = "hashicorp-4665790.hcs-production-${random_string.number.result}"
-  resource_group_name = azurerm_resource_group.hcs.name
+  plan {
+    name      = "public-beta"
+    product   = "hcs-production"
+    publisher = "hashicorp-4665790"
+    version   = "0.0.28"
+  }
 
   parameters = {
     initialConsulVersion    = var.consul_version
@@ -44,11 +50,5 @@ resource "azurerm_template_deployment" "hcs" {
     externalEndpoint        = var.external_endpoint ? "enabled" : "disabled"
     consulVnetCidr          = "${var.vnet_starting_ip_address}/24"
     location                = var.region
-    applicationResourceName = var.application_name
-    # managedResourceGroupId  = var.managed_resource_group_name == null ? "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/mrg-hcs-production-${formatdate("YYYYMMDDhhmmss", timestamp())}" : var.managed_resource_group_name
-    managedResourceGroupId = var.managed_resource_group_name == null ? "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/mrg-hcs-production-${random_string.number.result}" : var.managed_resource_group_name
   }
-
-  template_body   = file("${path.module}/files/template.json")
-  deployment_mode = "Incremental"
 }
