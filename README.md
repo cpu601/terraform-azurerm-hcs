@@ -67,7 +67,7 @@ To do so make sure to set `accept_marketplace_aggrement` to `true`.
 | managed\_resource\_group\_name | This resource group hols all the resources that are required by the managed application. | `string` | `null` | no |
 | number\_of\_servers | The number of Consul servers to provision. | `number` | `3` | no |
 | region | Choose the Azure region. As of April 29, 2020 only the regions East US (eastus), West US 2 (westus2), West Europe (westeurope) and North Europe (northeurope) are supported. | `string` | `"westeurope"` | no |
-| resource\_group\_name | Name of the resource group that will be created to host the managed application HCS for Azure. | `string` | n/a | yes |
+| resource\_group\_name | Name of the resource group that will host the managed application HCS for Azure. This must exist before applying the Terraform module. | `string` | n/a | yes |
 | vnet\_starting\_ip\_address | Confiure the initial IP address for the VNET CIDR range of your Consul cluster. A prefix of /24 will be applied to the created VNET. VNET starting IP address must fall in the range of: 10.\*.\*.\*, 172.[16-32].\*.\* or 192.168.\*.\*. | `string` | `"172.25.16.0"` | no |
 
 ## Outputs
