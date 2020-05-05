@@ -6,7 +6,7 @@ variable "accept_marketplace_aggrement" {
 
 variable "resource_group_name" {
   type        = string
-  description = "Name of the resource group that will be created to host the managed application HCS for Azure."
+  description = "Name of the resource group that will host the managed application HCS for Azure. This must exist before applying the Terraform module."
 }
 
 variable "region" {
