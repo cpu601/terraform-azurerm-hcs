@@ -1,8 +1,8 @@
-# Simple HCS beta deplyoment
+# Simple HCS beta deployment
 
 This directory will create a simple HCS beta deployment with only the required input parameters.
 
-It will also create a Azure Resource Group to host the managed application.
+It will also create an Azure Resource Group to host the managed application.
 
 
 ## Usage
