@@ -1,36 +1,18 @@
-# terraform-azurerm-hcs
+# Simple HCS beta deplyoment
 
-This Terraform module will allow to deploy HashiCorp Consul Service (HCS) on Azure. HCS is currently in public beta phase.
+This directory will create a simple HCS beta deployment with only the required input parameters.
 
-More information about HCS can be found at https://www.hashicorp.com/products/consul/service-on-azure/.
+It will also create a Azure Resource Group to host the managed application.
 
 
 ## Usage
 
-Do not use the master branch as module source as this could include non working code. 
-Always use a [released version](https://registry.terraform.io/modules/cpu601/hcs/azurerm) in the [Terraform registry](https://registry.terraform.io).
+To run this example you need to execute:
 
-```hcl
-provider "azurerm" {
-  features {}
-}
-
-resource "azurerm_resource_group" "hcs" {
-  name     = "hcs-example"
-  location = "West Europe"
-}
-
-module "hcs" {
-  source              = "cpu601/hcs/azurerm"
-  resource_group_name = azurerm_resource_group.hcs.name
-  application_name    = "hcs"
-  consul_cluster_name = "example-consul-cluster"
-  external_endpoint   = true
-}
-
-output "consul_url" {
-  value = module.hcs.consul_url
-}
+```bash
+$ terraform init
+$ terraform plan
+$ terraform apply
 ```
 
 ## Azure Marketplace agreement
