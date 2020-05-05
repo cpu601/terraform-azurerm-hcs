@@ -22,7 +22,7 @@ resource "azurerm_resource_group" "hcs" {
 
 module "hcs" {
   source              = "cpu601/hcs/azurerm"
-  resource_group_name = azurerm_resource_group.hcs.hcs.name
+  resource_group_name = azurerm_resource_group.hcs.name
   application_name    = "hcs"
   consul_cluster_name = "example-consul-cluster"
   external_endpoint   = true
