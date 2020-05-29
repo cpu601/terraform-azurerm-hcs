@@ -13,6 +13,20 @@ resource "random_string" "number" {
   special = false
 }
 
+resource "random_string" "storageaccountname" {
+  length  = 13
+  upper   = false
+  lower   = true
+  special = false
+}
+
+resource "random_string" "blobcontainername" {
+  length  = 13
+  upper   = false
+  lower   = true
+  special = false
+}
+
 data "azurerm_client_config" "current" {
 }
 
@@ -40,12 +54,21 @@ resource "azurerm_managed_application" "hcs" {
   }
 
   parameters = {
-    initialConsulVersion = var.consul_version
-    clusterName          = var.consul_cluster_name
-    consulDataCenter     = var.consul_datacenter_name
-    clusterMode          = var.consul_cluster_mode
-    externalEndpoint     = var.external_endpoint ? "enabled" : "disabled"
-    consulVnetCidr       = "${var.vnet_starting_ip_address}/24"
-    location             = var.region
+    initialConsulVersion  = var.consul_version
+    storageAccountName    = "${random_string.storageaccountname.result}"
+    blobContainerName     = "${random_string.blobcontainername.result}"
+    clusterMode           = var.consul_cluster_mode
+    clusterName           = var.consul_cluster_name
+    consulDataCenter      = var.consul_datacenter_name
+    numServers            = "3"
+    numServersDevelopment = "1"
+    automaticUpgrades     = "disabled"
+    consulConnect         = "enabled"
+    externalEndpoint      = var.external_endpoint ? "enabled" : "disabled"
+    snapshotInterval      = "1d"
+    snapshotRetention     = "1m"
+    consulVnetCidr        = "${var.vnet_starting_ip_address}/24"
+    location              = var.region
+    providerBaseURL       = "https://ama-api.hashicorp.cloud/consulama/2020-04-21"
   }
 }
