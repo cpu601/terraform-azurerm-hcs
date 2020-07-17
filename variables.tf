@@ -70,3 +70,15 @@ variable "vnet_starting_ip_address" {
   description = "Confiure the initial IP address for the VNET CIDR range of your Consul cluster. A prefix of /24 will be applied to the created VNET. VNET starting IP address must fall in the range of: 10.*.*.*, 172.[16-32].*.* or 192.168.*.*."
   default     = "172.25.16.0"
 }
+
+variable "hcs_marketplace_version" {
+  type        = string
+  description = "Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version."
+  default     = "0.0.34"
+}
+
+variable "hcs_base_url" {
+  type        = string
+  description = "URL of the HCS API. No need to change this unless this module is outdated or you know you need to use another version."
+  default     = "https://ama-api.hashicorp.cloud/consulama/2020-07-08"
+}
