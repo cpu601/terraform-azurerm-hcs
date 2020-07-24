@@ -27,6 +27,11 @@ resource "random_string" "blobcontainername" {
   special = false
 }
 
+
+locals {
+  managed_resource_group_name = var.managed_resource_group_name == null ? "mrg-hcs-production-${random_string.number.result}" : var.managed_resource_group_name
+}
+
 data "azurerm_client_config" "current" {
 }
 
@@ -44,19 +49,19 @@ resource "azurerm_managed_application" "hcs" {
   location                    = var.region
   resource_group_name         = var.resource_group_name
   kind                        = "MarketPlace"
-  managed_resource_group_name = var.managed_resource_group_name == null ? "mrg-hcs-production-${random_string.number.result}" : var.managed_resource_group_name
+  managed_resource_group_name = local.managed_resource_group_name
 
   plan {
     name      = "public-beta"
     product   = "hcs-production"
     publisher = "hashicorp-4665790"
-    version   = "0.0.28"
+    version   = var.hcs_marketplace_version
   }
 
   parameters = {
     initialConsulVersion  = var.consul_version
-    storageAccountName    = "${random_string.storageaccountname.result}"
-    blobContainerName     = "${random_string.blobcontainername.result}"
+    storageAccountName    = random_string.storageaccountname.result
+    blobContainerName     = random_string.blobcontainername.result
     clusterMode           = var.consul_cluster_mode
     clusterName           = var.consul_cluster_name
     consulDataCenter      = var.consul_datacenter_name
@@ -69,6 +74,12 @@ resource "azurerm_managed_application" "hcs" {
     snapshotRetention     = "1m"
     consulVnetCidr        = "${var.vnet_starting_ip_address}/24"
     location              = var.region
-    providerBaseURL       = "https://ama-api.hashicorp.cloud/consulama/2020-04-21"
+    providerBaseURL       = var.hcs_base_url
   }
+}
+
+data "azurerm_virtual_network" "hcs" {
+  depends_on = [azurerm_managed_application.hcs]
+  name = "hvn-consul-ama-${var.consul_cluster_name}-vnet"
+  resource_group_name = local.managed_resource_group_name
 }
