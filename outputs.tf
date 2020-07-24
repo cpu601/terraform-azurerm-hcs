@@ -1,11 +1,18 @@
 output "get_hcs_config_command" {
   value       = <<EOF
-
   az resource show \
   --ids "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.resource_group_name}/providers/Microsoft.Solutions/applications/${var.application_name}/customconsulClusters/${var.consul_cluster_name}" \
   --api-version 2018-09-01-preview
   EOF
   description = "Azure CLI command to get HCS for Azure configuration which includes Consul API URL, Consul CA file, Consul config file and more."
+}
+
+output "install_hcs_az_cli_extension" {
+  value       = <<EOF
+  az extension add \
+  --source https://releases.hashicorp.com/hcs/0.1.0/hcs-0.1.0-py2.py3-none-any.whl
+  EOF
+  description = "HashiCorp provides an Azure CLI extension to interact with your HCS cluster. ou can install the extension directly from your shell using the az command."
 }
 
 output "consul_url" {
@@ -44,27 +51,27 @@ output "subscription_id" {
 }
 
 output "consul_cluster_name" {
-  value = var.consul_cluster_name
+  value       = var.consul_cluster_name
   description = "Name of the managed Consul cluster."
 }
 
 output "managed_vnet_id" {
-  value = data.azurerm_virtual_network.hcs.id
+  value       = data.azurerm_virtual_network.hcs.id
   description = "Id of the VNET the managed Consul cluster is connected to."
 }
 
 output "managed_vnet_name" {
-  value = data.azurerm_virtual_network.hcs.name
-    description = "Name of the VNET the managed Consul cluster is connected to."
+  value       = data.azurerm_virtual_network.hcs.name
+  description = "Name of the VNET the managed Consul cluster is connected to."
 }
 
 output "managed_vnet_region" {
-  value = data.azurerm_virtual_network.hcs.location
+  value       = data.azurerm_virtual_network.hcs.location
   description = "Region of the VNET the managed Consul cluster is connected to."
 }
 
 output "managed_vnet_resource_group_name" {
-  value = data.azurerm_virtual_network.hcs.resource_group_name
+  value       = data.azurerm_virtual_network.hcs.resource_group_name
   description = "Name of the resource group of the VNET the managed Consul cluster is connected to. Should be the same as the managed_resource_group_name output."
 }
 
