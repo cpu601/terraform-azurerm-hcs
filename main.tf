@@ -52,7 +52,7 @@ resource "azurerm_managed_application" "hcs" {
   managed_resource_group_name = local.managed_resource_group_name
 
   plan {
-    name      = "public-beta"
+    name      = "on-demand"
     product   = "hcs-production"
     publisher = "hashicorp-4665790"
     version   = var.hcs_marketplace_version
@@ -75,11 +75,12 @@ resource "azurerm_managed_application" "hcs" {
     consulVnetCidr        = "${var.vnet_starting_ip_address}/24"
     location              = var.region
     providerBaseURL       = var.hcs_base_url
+    email                 = var.email
   }
 }
 
 data "azurerm_virtual_network" "hcs" {
-  depends_on = [azurerm_managed_application.hcs]
-  name = "hvn-consul-ama-${var.consul_cluster_name}-vnet"
+  depends_on          = [azurerm_managed_application.hcs]
+  name                = "hvn-consul-ama-${var.consul_cluster_name}-vnet"
   resource_group_name = local.managed_resource_group_name
 }

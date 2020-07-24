@@ -18,14 +18,15 @@ variable "region" {
 variable "consul_cluster_mode" {
   type        = string
   description = "Non-production clusters have a limited feature set and only a single Consul server. Production clusters are fully supported, full featured, and deploy with a minimum of three hosts. Supported values are PRODUCTION and DEVELOPMENT."
-  default     = "PRODUCTION"
+  default     = "DEVELOPMENT"
 }
 
-variable "number_of_servers" {
-  type        = number
-  description = "The number of Consul servers to provision."
-  default     = 3
-}
+# Wasn't used, saved for later.
+# variable "number_of_servers" {
+#   type        = number
+#   description = "The number of Consul servers to provision."
+#   default     = 1
+# }
 
 variable "application_name" {
   type        = string
@@ -56,7 +57,7 @@ variable "consul_datacenter_name" {
 variable "consul_version" {
   type        = string
   description = "Select a version of Consul. The only supported value as of April 29, 2020 is v1.7.2"
-  default     = "v1.7.2"
+  default     = "v1.8.0"
 }
 
 variable "external_endpoint" {
@@ -74,11 +75,16 @@ variable "vnet_starting_ip_address" {
 variable "hcs_marketplace_version" {
   type        = string
   description = "Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "0.0.34"
+  default     = "0.0.39"
 }
 
 variable "hcs_base_url" {
   type        = string
   description = "URL of the HCS API. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "https://ama-api.hashicorp.cloud/consulama/2020-07-08"
+  default     = "https://ama-api.hashicorp.cloud/consulama/2020-07-09"
+}
+
+variable "email" {
+  type        = string
+  description = "This email will be used by HashiCorp to notify you about system updates and operational issues."
 }
