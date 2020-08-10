@@ -39,7 +39,7 @@ resource "azurerm_marketplace_agreement" "hcs" {
   count     = var.accept_marketplace_aggrement ? 1 : 0
   publisher = "hashicorp-4665790"
   offer     = "hcs-production"
-  plan      = "public-beta"
+  plan      = "on-demand"
 }
 
 resource "azurerm_managed_application" "hcs" {
