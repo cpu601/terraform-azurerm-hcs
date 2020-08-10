@@ -1,6 +1,6 @@
 # terraform-azurerm-hcs
 
-This Terraform module will allow to deploy HashiCorp Consul Service (HCS) on Azure. HCS is currently in public beta phase.
+This Terraform module will allow to deploy HashiCorp Consul Service (HCS) on Azure.
 
 More information about HCS can be found at https://www.hashicorp.com/products/consul/service-on-azure/.
 
