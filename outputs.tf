@@ -54,24 +54,3 @@ output "consul_cluster_name" {
   value       = var.consul_cluster_name
   description = "Name of the managed Consul cluster."
 }
-
-output "managed_vnet_id" {
-  value       = data.azurerm_virtual_network.hcs.id
-  description = "Id of the VNET the managed Consul cluster is connected to."
-}
-
-output "managed_vnet_name" {
-  value       = data.azurerm_virtual_network.hcs.name
-  description = "Name of the VNET the managed Consul cluster is connected to."
-}
-
-output "managed_vnet_region" {
-  value       = data.azurerm_virtual_network.hcs.location
-  description = "Region of the VNET the managed Consul cluster is connected to."
-}
-
-output "managed_vnet_resource_group_name" {
-  value       = data.azurerm_virtual_network.hcs.resource_group_name
-  description = "Name of the resource group of the VNET the managed Consul cluster is connected to. Should be the same as the managed_resource_group_name output."
-}
-

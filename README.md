@@ -84,10 +84,6 @@ To do so make sure to set `accept_marketplace_aggrement` to `true`.
 | get\_hcs\_config\_command | Azure CLI command to get HCS for Azure configuration which includes Consul API URL, Consul CA file, Consul config file and more. |
 | install\_hcs\_az\_cli\_extension | HashiCorp provides an Azure CLI extension to interact with your HCS cluster. ou can install the extension directly from your shell using the az command. |
 | managed\_resource\_group\_name | Name of the managed resource group that will be created by HCS on Azure. |
-| managed\_vnet\_id | Id of the VNET the managed Consul cluster is connected to. |
-| managed\_vnet\_name | Name of the VNET the managed Consul cluster is connected to. |
-| managed\_vnet\_region | Region of the VNET the managed Consul cluster is connected to. |
-| managed\_vnet\_resource\_group\_name | Name of the resource group of the VNET the managed Consul cluster is connected to. Should be the same as the managed\_resource\_group\_name output. |
 | region | Region of the managed resource group that will be created by HCS on Azure. |
 | resource\_group\_name | Name of the resource group where HCS on Azure is deployed in. |
 | resource\_id | Full id for the Consul cluster resource |

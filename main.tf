@@ -78,9 +78,3 @@ resource "azurerm_managed_application" "hcs" {
     email                 = var.email
   }
 }
-
-data "azurerm_virtual_network" "hcs" {
-  depends_on          = [azurerm_managed_application.hcs]
-  name                = "hvn-consul-ama-${var.consul_cluster_name}-vnet"
-  resource_group_name = local.managed_resource_group_name
-}
