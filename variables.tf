@@ -57,7 +57,7 @@ variable "consul_datacenter_name" {
 variable "consul_version" {
   type        = string
   description = "Select a version of Consul. The only supported value as of April 29, 2020 is v1.7.2"
-  default     = "v1.8.0"
+  default     = "v1.8.4"
 }
 
 variable "external_endpoint" {
@@ -75,7 +75,7 @@ variable "vnet_starting_ip_address" {
 variable "hcs_marketplace_version" {
   type        = string
   description = "Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "0.0.41"
+  default     = "0.0.47"
 }
 
 variable "hcs_base_url" {
