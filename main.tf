@@ -56,6 +56,13 @@ resource "azurerm_managed_application" "hcs" {
   kind                        = "MarketPlace"
   managed_resource_group_name = local.managed_resource_group_name
 
+  lifecycle {
+    ignore_changes = [
+      plan,
+      parameters
+    ]
+  }
+
   plan {
     name      = lookup(jsondecode(data.http.cloud_hcs_meta.body), "name")
     product   = "hcs-production"
@@ -75,6 +82,7 @@ resource "azurerm_managed_application" "hcs" {
     automaticUpgrades     = "disabled"
     consulConnect         = "enabled"
     externalEndpoint      = var.external_endpoint ? "enabled" : "disabled"
+    federationToken       = null
     snapshotInterval      = "1d"
     snapshotRetention     = "1m"
     consulVnetCidr        = "${var.vnet_starting_ip_address}/24"
@@ -85,7 +93,6 @@ resource "azurerm_managed_application" "hcs" {
 }
 
 data "azurerm_virtual_network" "hcs" {
-  depends_on          = [azurerm_managed_application.hcs]
   name                = "${lookup(azurerm_managed_application.hcs.outputs, "vnet_name")}-vnet"
   resource_group_name = local.managed_resource_group_name
 }
