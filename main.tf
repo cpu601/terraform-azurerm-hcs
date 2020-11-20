@@ -3,7 +3,12 @@ terraform {
   required_providers {
     azurerm = ">= 2.8.0"
     random  = ">= 2.2.1"
+    http    = ">= 2.0.0"
   }
+}
+
+data "http" "cloud_hcs_meta" {
+  url = "https://raw.githubusercontent.com/hashicorp/cloud-hcs-meta/master/ama-plans/defaults.json"
 }
 
 resource "random_string" "number" {
@@ -39,7 +44,7 @@ resource "azurerm_marketplace_agreement" "hcs" {
   count     = var.accept_marketplace_aggrement ? 1 : 0
   publisher = "hashicorp-4665790"
   offer     = "hcs-production"
-  plan      = "on-demand-v2"
+  plan      = lookup(jsondecode(data.http.cloud_hcs_meta.body), "name")
 }
 
 resource "azurerm_managed_application" "hcs" {
@@ -52,10 +57,10 @@ resource "azurerm_managed_application" "hcs" {
   managed_resource_group_name = local.managed_resource_group_name
 
   plan {
-    name      = "on-demand-v2"
+    name      = lookup(jsondecode(data.http.cloud_hcs_meta.body), "name")
     product   = "hcs-production"
     publisher = "hashicorp-4665790"
-    version   = var.hcs_marketplace_version
+    version   = lookup(jsondecode(data.http.cloud_hcs_meta.body), "version")
   }
 
   parameters = {
@@ -74,13 +79,13 @@ resource "azurerm_managed_application" "hcs" {
     snapshotRetention     = "1m"
     consulVnetCidr        = "${var.vnet_starting_ip_address}/24"
     location              = var.region
-    providerBaseURL       = var.hcs_base_url
+    providerBaseURL       = "https://ama-api.hashicorp.cloud/consulama/${lookup(jsondecode(data.http.cloud_hcs_meta.body), "ama_api_version")}"
     email                 = var.email
   }
 }
 
 data "azurerm_virtual_network" "hcs" {
   depends_on          = [azurerm_managed_application.hcs]
-  name                = "hvn-consul-ama-${var.consul_cluster_name}-vnet"
+  name                = "${lookup(azurerm_managed_application.hcs.outputs, "vnet_name")}-vnet"
   resource_group_name = local.managed_resource_group_name
 }
