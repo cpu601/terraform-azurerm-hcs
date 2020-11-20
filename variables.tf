@@ -72,18 +72,6 @@ variable "vnet_starting_ip_address" {
   default     = "172.25.16.0"
 }
 
-variable "hcs_marketplace_version" {
-  type        = string
-  description = "Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "0.0.47"
-}
-
-variable "hcs_base_url" {
-  type        = string
-  description = "URL of the HCS API. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "https://ama-api.hashicorp.cloud/consulama/2020-07-24"
-}
-
 variable "email" {
   type        = string
   description = "This email will be used by HashiCorp to notify you about system updates and operational issues."
