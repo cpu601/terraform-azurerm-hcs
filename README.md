@@ -47,6 +47,7 @@ To do so make sure to set `accept_marketplace_aggrement` to `true`.
 | terraform | >= 0.12.24 |
 | azurerm | >= 2.8.0 |
 | random | >= 2.2.1 |
+| http | >= 2.0.0 |
 
 ## Providers
 
@@ -54,6 +55,7 @@ To do so make sure to set `accept_marketplace_aggrement` to `true`.
 |------|---------|
 | azurerm | >= 2.8.0 |
 | random | >= 2.2.1 |
+| http | >= 2.0.0 |
 
 ## Inputs
 
@@ -67,8 +69,8 @@ To do so make sure to set `accept_marketplace_aggrement` to `true`.
 | consul\_version | Select a version of Consul. The only supported value as of April 29, 2020 is v1.7.2 | `string` | `"v1.8.0"` | no |
 | email | This email will be used by HashiCorp to notify you about system updates and operational issues. | `string` | n/a | yes |
 | external\_endpoint | If enabled, the Consul UI and API will be exposed on a public IP address. | `bool` | `false` | no |
-| hcs\_base\_url | URL of the HCS API. No need to change this unless this module is outdated or you know you need to use another version. | `string` | `"https://ama-api.hashicorp.cloud/consulama/2020-07-24"` | no |
-| hcs\_marketplace\_version | Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version. | `string` | `"0.0.41"` | no |
+| hcs\_base\_url | URL of the HCS API. No need to change this unless this module is outdated or you know you need to use another version. | `string` | `"https://ama-api.hashicorp.cloud/consulama/2020-11-06"` | no |
+| hcs\_marketplace\_version | Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version. | `string` | `"0.0.52"` | no |
 | managed\_resource\_group\_name | This resource group hols all the resources that are required by the managed application. | `string` | `null` | no |
 | region | Choose the Azure region. As of April 29, 2020 only the regions East US (eastus), West US 2 (westus2), West Europe (westeurope) and North Europe (northeurope) are supported. | `string` | `"westeurope"` | no |
 | resource\_group\_name | Name of the resource group that will host the managed application HCS for Azure. This must exist before applying the Terraform module. | `string` | n/a | yes |

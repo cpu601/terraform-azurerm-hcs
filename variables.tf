@@ -11,7 +11,7 @@ variable "resource_group_name" {
 
 variable "region" {
   type        = string
-  description = "Choose the Azure region. As of April 29, 2020 only the regions East US (eastus), West US 2 (westus2), West Europe (westeurope) and North Europe (northeurope) are supported."
+  description = "Choose the Azure region. As of November 20, 2020 the following Azure regions are supported: (US) East US, (US) East US 2, (US) Central US, (US) West US 2, (Europe) West Europe, (Europe) North Europe, (Europe) Central France, (Europe) South UK"
   default     = "westeurope"
 }
 
@@ -39,7 +39,7 @@ variable "application_name" {
 
 variable "managed_resource_group_name" {
   type        = string
-  description = "This resource group hols all the resources that are required by the managed application."
+  description = "This resource group holds all the resources that are required by the managed application."
   default     = null
 }
 
@@ -56,7 +56,7 @@ variable "consul_datacenter_name" {
 
 variable "consul_version" {
   type        = string
-  description = "Select a version of Consul. The only supported value as of April 29, 2020 is v1.7.2"
+  description = "Select a version of Consul."
   default     = "v1.8.4"
 }
 
@@ -68,20 +68,20 @@ variable "external_endpoint" {
 
 variable "vnet_starting_ip_address" {
   type        = string
-  description = "Confiure the initial IP address for the VNET CIDR range of your Consul cluster. A prefix of /24 will be applied to the created VNET. VNET starting IP address must fall in the range of: 10.*.*.*, 172.[16-32].*.* or 192.168.*.*."
+  description = "Configure the initial IP address for the VNET CIDR range of your Consul cluster. A prefix of /24 will be applied to the created VNET. VNET starting IP address must fall in the range of: 10.*.*.*, 172.[16-32].*.* or 192.168.*.*."
   default     = "172.25.16.0"
 }
 
 variable "hcs_marketplace_version" {
   type        = string
   description = "Version of the marketplace managed application. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "0.0.47"
+  default     = "0.0.52"
 }
 
 variable "hcs_base_url" {
   type        = string
   description = "URL of the HCS API. No need to change this unless this module is outdated or you know you need to use another version."
-  default     = "https://ama-api.hashicorp.cloud/consulama/2020-07-24"
+  default     = "https://ama-api.hashicorp.cloud/consulama/2020-11-06"
 }
 
 variable "email" {
