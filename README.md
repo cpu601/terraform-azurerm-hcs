@@ -1,4 +1,4 @@
-# Officual HashiCorp Consul Service on Azure (HCS) Terraform Provider
+# Official HashiCorp Consul Service on Azure (HCS) Terraform Provider
 
 As the official is now released this repository is now archived. Please migrate to the official provider as soon as possible.
 For more information please have a look at the official provider documentation: https://registry.terraform.io/providers/hashicorp/hcs/latest/docs
